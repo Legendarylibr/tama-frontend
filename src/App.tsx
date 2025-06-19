@@ -1,49 +1,130 @@
-import { FC } from 'react';
-import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
-import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
-import { PhantomWalletAdapter } from '@solana/wallet-adapter-wallets';
-import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
-import { clusterApiUrl } from '@solana/web3.js';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { ChakraProvider, CSSReset } from '@chakra-ui/react';
 
-// Components
-import Navigation from './components/Navigation';
-import PetSelection from './components/PetSelection';
-import PetInteraction from './components/PetInteraction';
-import MoonGallery from './components/MoonGallery';
+// Simple components for now
+const PetSelection = () => (
+  <div className="space-y-4">
+    <div className="lcd-text text-center border-b border-gray-600 pb-2">
+      <div className="lcd-text-large retro-glow">
+        SELECT PET
+      </div>
+    </div>
+    <div className="text-center space-y-3">
+      <div className="pet-display mx-auto">
+        <div className="text-4xl pixel-bounce">
+          🐰
+        </div>
+      </div>
+      <div className="lcd-text-large">
+        LUNABUN
+      </div>
+      <div className="lcd-text text-xs">
+        MOON RABBIT
+      </div>
+    </div>
+  </div>
+);
 
-// Styles
-import './styles/App.css';
-import '@solana/wallet-adapter-react-ui/styles.css';
+const PetInteraction = () => (
+  <div className="space-y-4">
+    <div className="lcd-text text-center border-b border-gray-600 pb-2">
+      <div className="flex justify-between text-xs">
+        <span>AGE: 5D</span>
+        <span>12:34</span>
+      </div>
+    </div>
+    <div className="text-center">
+      <div className="pet-display mx-auto">
+        <div className="text-4xl pixel-bounce">
+          😊
+        </div>
+      </div>
+      <div className="lcd-text-large retro-glow">
+        LUNABUN
+      </div>
+    </div>
+  </div>
+);
 
-const App: FC = () => {
-  const network = WalletAdapterNetwork.Devnet;
-  const endpoint = clusterApiUrl(network);
-  const wallets = [new PhantomWalletAdapter()];
+const MoonGallery = () => (
+  <div className="space-y-4">
+    <div className="lcd-text text-center border-b border-gray-600 pb-2">
+      <div className="lcd-text-large retro-glow">
+        MOON GALLERY
+      </div>
+    </div>
+    <div className="text-center space-y-4 py-8">
+      <div className="text-4xl">🌙</div>
+      <div className="lcd-text">
+        NO ASCENDED PETS YET
+      </div>
+    </div>
+  </div>
+);
 
+const Navigation = () => (
+  <div className="space-y-4">
+    <div className="grid grid-cols-3 gap-4 justify-items-center">
+      <div className="text-center">
+        <button className="btn-tamagotchi">
+          🐾
+        </button>
+        <div className="button-label">SELECT</div>
+      </div>
+      <div className="text-center">
+        <button className="btn-tamagotchi">
+          ❤️
+        </button>
+        <div className="button-label">CARE</div>
+      </div>
+      <div className="text-center">
+        <button className="btn-tamagotchi">
+          🌙
+        </button>
+        <div className="button-label">GALLERY</div>
+      </div>
+    </div>
+    <div className="flex justify-center items-center space-x-2 mt-2">
+      <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+      <span className="text-green-400 text-xs font-mono">ONLINE</span>
+    </div>
+  </div>
+);
+
+const App = () => {
   return (
-    <ChakraProvider>
-      <CSSReset />
-      <ConnectionProvider endpoint={endpoint}>
-        <WalletProvider wallets={wallets} autoConnect>
-          <WalletModalProvider>
-            <Router>
-              <div className="app">
-                <Navigation />
-                <main className="main-content">
-                  <Routes>
-                    <Route path="/" element={<PetSelection />} />
-                    <Route path="/pet/:id" element={<PetInteraction />} />
-                    <Route path="/gallery" element={<MoonGallery />} />
-                  </Routes>
-                </main>
-              </div>
-            </Router>
-          </WalletModalProvider>
-        </WalletProvider>
-      </ConnectionProvider>
-    </ChakraProvider>
+    <Router>
+      <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 flex items-center justify-center p-4">
+        <div className="tamagotchi-device">
+          <div className="brand-label">HOSHINO™</div>
+          
+          <div className="lcd-screen">
+            <div className="lcd-text text-center mb-2">
+              ✧ CELESTIAL PET DEVICE ✧
+            </div>
+            
+            <main>
+              <Routes>
+                <Route path="/" element={<PetSelection />} />
+                <Route path="/pet" element={<PetInteraction />} />
+                <Route path="/gallery" element={<MoonGallery />} />
+              </Routes>
+            </main>
+          </div>
+          
+          <Navigation />
+          
+          <div className="text-center mt-4">
+            <div className="text-purple-200 text-xs font-mono">
+              MODEL: HSN-2024
+            </div>
+            <div className="text-purple-300 text-xs mt-1">
+              ⚡ SOLANA POWERED ⚡
+            </div>
+          </div>
+        </div>
+      </div>
+    </Router>
   );
 };
 
